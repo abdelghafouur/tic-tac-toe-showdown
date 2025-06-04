@@ -1,0 +1,827 @@
+/* --- New Root Variables for Consistency (from robot-game.html for uniformity) --- */
+:root {
+    --primary-color: #53DD6C;
+    /* Brighter Green - for Player 'X' and main actions */
+    --secondary-color: #4DB3D6;
+    /* Brighter Blue - for Player 'O' and back button */
+    --accent-color: #FFDE59;
+    /* Bright Amber - for Draw/Highlights */
+    --bg-light: linear-gradient(135deg, #f0f2f5 0%, #e0e5ec 100%);
+    --bg-dark: linear-gradient(135deg, #15202B 0%, #1A283D 100%);
+    /* Deeper, more modern dark gradient */
+    --text-light: #333;
+    --text-dark: #E0E0E0;
+    --button-text: #fff;
+    --card-bg-light: #ffffff;
+    --card-bg-dark: #2C3A47;
+    --shadow-light: rgba(0, 0, 0, 0.15);
+    --shadow-dark: rgba(0, 0, 0, 0.6);
+    --border-radius: 15px;
+    --transition-speed: 0.4s;
+
+    /* Tic Tac Toe specific colors - adapted to new theme structure */
+    --highlight: var(--primary-color);
+    /* Now using primary green for highlights */
+    --hover-bg: #e6ffe6;
+    /* Light green hover */
+    --turn: #27ae60;
+    --win: #e74c3c;
+    /* Red for win messages */
+    --win-highlight-bg: #a8dadc;
+    /* Light teal for winning cells */
+    --win-highlight-dark-bg: #4a9d8f;
+    /* Darker teal for winning cells in dark mode */
+    --x-color: #e74c3c;
+    /* Red for X */
+    --o-color: #4a90e2;
+    /* Blue for O */
+}
+
+body.dark {
+    --highlight: var(--primary-color);
+    /* Still primary for dark mode */
+    --hover-bg: #3c4c3c;
+    /* Darker green hover for dark mode */
+    --turn: #2ecc71;
+    --win: #ff6b6b;
+    /* Lighter red for win messages */
+    --win-highlight-bg: #4a9d8f;
+    --win-highlight-dark-bg: #2a9d8f;
+    --x-color: #ff6b6b;
+    --o-color: #81b0f9;
+}
+
+/* --- General Body and Container Styles (from robot-game.html for uniformity) --- */
+body {
+    font-family: 'Roboto', sans-serif;
+    background: var(--bg-light);
+    color: var(--text-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    overflow: hidden;
+    transition: background var(--transition-speed) ease, color var(--transition-speed) ease;
+    position: relative;
+    perspective: 1000px;
+    /* For potential 3D effects */
+    box-sizing: border-box;
+    padding: 15px;
+    /* Ensure some padding around content */
+}
+
+body.dark {
+    background: var(--bg-dark);
+    color: var(--text-dark);
+}
+
+/* --- Background Texture (Subtle Noise) --- */
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml;base64,PHN2ZyB2aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxmaWx0ZXIgaWQ9Im5vaXNlIj4KICAgIDxmZVR1cmJ1bGVuY2UgdHlwZT0iZnJhY3RhbE5vaXNlIiBiYXNlRnJlcXVlbmN5PSIwLjciIG51bU9jdGF2ZXMiPSI0IiBzdGl0Y2hUaWxlcz0ic3BhdGlhbEZyYWN0YWwiLz4KICAgIDxmZUNvbG9yTWF0cml4IHR5cGU9InNhdHVyYXRlIiB2YWx1ZXM9IjAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIC0xIDMiLz4KICA8L2ZpbHRlcj4KICA8cmVjdCB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0ic2xhdGVncmF5IiBmaWx0ZXI9InVybCgjbm9pc2UpIiBvcGFjaXR5PSIwLjAiLz4KPC9zdmc+') repeat;
+    opacity: 0.05;
+    z-index: 0;
+    pointer-events: none;
+    transition: opacity var(--transition-speed) ease;
+}
+
+body.dark::before {
+    opacity: 0.1;
+}
+
+.container {
+    background: var(--card-bg-light);
+    padding: 10px 50px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 15px 40px var(--shadow-light);
+    text-align: center;
+    animation: fadeInScaleUp 1s ease-out forwards;
+    position: relative;
+    z-index: 10;
+    transition: background var(--transition-speed) ease, box-shadow var(--transition-speed) ease, transform 0.3s ease;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    width: 100%;
+    max-width: 450px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
+}
+
+body.dark .container {
+    background: var(--card-bg-dark);
+    box-shadow: 0 15px 40px var(--shadow-dark);
+}
+
+@keyframes fadeInScaleUp {
+    from {
+        opacity: 0;
+        transform: scale(0.8) translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* --- Title Styles and Animation --- */
+h1 {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 2.5em;
+    /* Slightly larger for main title */
+    margin-bottom: 25px;
+    color: var(--primary-color);
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+    animation: textPopIn 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+    opacity: 0;
+    position: relative;
+}
+
+@keyframes textPopIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.5) translateY(-50px);
+        text-shadow: 0 0 0 rgba(0, 0, 0, 0);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.1) translateY(10px);
+        text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+    }
+}
+
+h2,
+h3,
+h4 {
+    color: var(--text-light);
+    margin-bottom: 10px;
+    transition: color 0.3s ease;
+}
+
+body.dark h2,
+body.dark h3,
+body.dark h4 {
+    color: var(--text-dark);
+}
+
+/* Your Code Display */
+#yourCode {
+    background-color: var(--card-bg-light);
+    border: 2px dashed var(--highlight);
+    padding: 10px 20px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    /* More space */
+    color: var(--highlight);
+    text-align: center;
+    font-weight: bold;
+    font-size: 24px;
+    cursor: pointer;
+    transition: background-color 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+body.dark #yourCode {
+    background-color: var(--card-bg-dark);
+    color: var(--highlight);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+#yourCode:hover {
+    background-color: var(--hover-bg);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+body.dark #yourCode:hover {
+    background-color: var(--hover-bg);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Inputs */
+input {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    width: calc(100% - 24px);
+    max-width: 280px;
+    font-size: 16px;
+    margin-bottom: 15px;
+    transition: box-shadow 0.2s, border-color 0.2s;
+    background-color: var(--card-bg-light);
+    color: var(--text-light);
+    box-sizing: border-box;
+}
+
+body.dark input {
+    background-color: var(--card-bg-dark);
+    border-color: #555;
+    color: var(--text-dark);
+}
+
+input:focus {
+    box-shadow: 0 0 8px rgba(74, 144, 226, 0.8);
+    outline: none;
+    border-color: var(--highlight);
+}
+
+input:disabled {
+    background-color: #e0e0e0;
+    cursor: not-allowed;
+    color: #888;
+    opacity: 0.7;
+}
+
+body.dark input:disabled {
+    background-color: #333;
+    color: #666;
+}
+
+/* Action Button */
+.action-button {
+    padding: 15px 30px;
+    /* Larger padding */
+    border: none;
+    border-radius: 12px;
+    /* Slightly more rounded */
+    background-color: var(--primary-color);
+    /* Consistent with primary color */
+    color: var(--button-text);
+    font-size: 1.4em;
+    /* Larger font */
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+    margin-top: 20px;
+    /* More space below */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    /* Deeper initial shadow */
+    text-decoration: none;
+    display: inline-block;
+}
+
+.action-button:hover {
+    background-color: #4CAF50;
+    /* Slightly darker green */
+    transform: translateY(-8px);
+    /* Lift higher */
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+    /* Stronger shadow on hover */
+}
+
+.action-button:active {
+    transform: translateY(-2px);
+    /* Only slight depression */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+    /* Quicker active transition */
+}
+
+/* --- Top Buttons (from robot-game.html for uniformity) --- */
+.top-buttons {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    right: 25px;
+    display: flex;
+    justify-content: space-between;
+    /* To push buttons to corners */
+    gap: 15px;
+    /* Space between buttons */
+    z-index: 11;
+}
+
+.top-buttons .button {
+    background-color: rgba(0, 0, 0, 0.25);
+    color: var(--text-light);
+    border: none;
+    padding: 12px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+    /* For the Back to Home link */
+    display: inline-block;
+    flex-shrink: 0;
+    /* Prevent buttons from shrinking too much */
+}
+
+.top-buttons .button:hover {
+    background-color: rgba(0, 0, 0, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+body.dark .top-buttons .button {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: var(--text-dark);
+}
+
+body.dark .top-buttons .button:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Specific back button color */
+.back-to-home {
+    background-color: var(--secondary-color);
+    /* Blue for back button */
+    color: var(--button-text);
+}
+
+.back-to-home:hover {
+    background-color: #1976d2;
+    /* Darker blue */
+}
+
+/* Positioning for individual toggle buttons in top-buttons container */
+.top-buttons .toggle-button {
+    /* A new class for toggle buttons */
+    margin-left: auto;
+    /* Push them to the right */
+}
+
+
+/* --- UI Sections (Kept from game.html, ensuring proper display initialisation) --- */
+.setup-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.game-section {
+    display: none;
+    /* Hidden by default */
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: -15px;
+    /* Adjust to pull up content */
+}
+
+#status {
+    margin-top: 20px;
+    font-weight: bold;
+    color: var(--text-light);
+    transition: color 0.3s ease;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1.2em; /* Adjusted for consistency */
+}
+
+body.dark #status {
+    color: var(--text-dark);
+}
+
+/* --- Game Board Styles (Unified for game.html and robot-game.html consistency) --- */
+#board {
+    display: grid;
+    grid-template-columns: repeat(3, 80px);
+    grid-gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+    background-color: rgba(0, 0, 0, 0.1);
+    /* Slightly transparent background for the grid */
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow: inset 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.5s ease, box-shadow 0.5s ease;
+}
+
+body.dark #board {
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: inset 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+#board div {
+    width: 80px;
+    height: 80px;
+    background-color: var(--card-bg-light);
+    /* Consistent with card background */
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 3.5em;
+    /* Adjusted for cell size */
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+    user-select: none;
+    color: transparent;
+    /* Start with transparent text */
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    border: 2px solid rgba(0, 0, 0, 0.05);
+    /* Subtle border */
+}
+
+body.dark #board div {
+    background-color: var(--card-bg-dark);
+    border: 2px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+#board div:not(.winner-cell):not(.X):not(.O):hover {
+    background-color: var(--hover-bg);
+    /* Use theme variable */
+    transform: scale(1.05);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.25), 0 0 15px var(--accent-color);
+}
+
+#board div.winner-cell {
+    background-color: var(--win-highlight-bg);
+    color: white !important;
+    border-color: var(--win);
+    animation: win-pulse 1s infinite alternate;
+}
+
+body.dark #board div.winner-cell {
+    background-color: var(--win-highlight-dark-bg);
+}
+
+@keyframes win-pulse {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(1.03);
+    }
+}
+
+#winnerMessage {
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 28px;
+    color: var(--win);
+    animation: pulse 1.5s infinite alternate;
+}
+
+@keyframes pulse {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(1.05);
+    }
+}
+
+#currentTurn {
+    font-weight: bold;
+    color: var(--turn);
+    transition: color 0.3s;
+}
+
+#board div.X {
+    color: var(--x-color);
+    animation: cellFadeIn 0.3s ease-out;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+#board div.O {
+    color: var(--o-color);
+    animation: cellFadeIn 0.3s ease-out;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes cellFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Styles for colored names */
+.player-name-x {
+    color: var(--x-color);
+    font-weight: bold;
+}
+
+.player-name-o {
+    color: var(--o-color);
+    font-weight: bold;
+}
+
+#toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 1000;
+}
+
+/* --- Background animated shapes (from robot-game.html for uniformity) --- */
+.shape {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    animation: floatAndRotate 20s infinite ease-in-out alternate;
+    z-index: 1;
+    filter: blur(2px);
+    transform-origin: center center;
+    opacity: 0.8;
+}
+
+body.dark .shape {
+    background: rgba(0, 0, 0, 0.15);
+}
+
+.shape:nth-child(1) {
+    width: 120px;
+    height: 120px;
+    top: 8%;
+    left: 10%;
+    animation-duration: 22s;
+    animation-delay: 0s;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0) 70%);
+}
+
+.shape:nth-child(2) {
+    width: 180px;
+    height: 180px;
+    bottom: 3%;
+    right: 8%;
+    animation-duration: 25s;
+    animation-delay: 2s;
+    border-radius: 30%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+}
+
+.shape:nth-child(3) {
+    width: 90px;
+    height: 90px;
+    top: 25%;
+    right: 15%;
+    animation-duration: 18s;
+    animation-delay: 1s;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 70%);
+}
+
+.shape:nth-child(4) {
+    width: 140px;
+    height: 140px;
+    bottom: 15%;
+    left: 20%;
+    animation-duration: 20s;
+    animation-delay: 3s;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0) 70%);
+}
+
+.shape:nth-child(5) {
+    width: 70px;
+    height: 70px;
+    top: 55%;
+    left: 5%;
+    animation-duration: 16s;
+    animation-delay: 0.5s;
+    border-radius: 40%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0) 70%);
+}
+
+.shape:nth-child(6) {
+    width: 100px;
+    height: 100px;
+    top: 15%;
+    right: 5%;
+    animation-duration: 24s;
+    animation-delay: 4s;
+    border-radius: 60% 40% 70% 30% / 30% 60% 40% 70%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+}
+
+.shape:nth-child(7) {
+    width: 60px;
+    height: 60px;
+    bottom: 25%;
+    left: 5%;
+    animation-duration: 19s;
+    animation-delay: 1.5s;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 70%);
+}
+
+
+@keyframes floatAndRotate {
+    0% {
+        transform: translateY(0) rotate(0deg) scale(1);
+        opacity: 0.8;
+    }
+
+    25% {
+        transform: translateY(-15px) rotate(90deg) scale(0.98);
+        opacity: 0.75;
+    }
+
+    50% {
+        transform: translateY(0) rotate(180deg) scale(1.02);
+        opacity: 0.85;
+    }
+
+    75% {
+        transform: translateY(-10px) rotate(270deg) scale(0.99);
+        opacity: 0.7;
+    }
+
+    100% {
+        transform: translateY(0) rotate(360deg) scale(1);
+        opacity: 0.8;
+    }
+}
+
+
+/* --- Mobile Responsiveness (Unified from robot-game.html for consistency) --- */
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        padding: 20px 20px;
+        max-width: 350px;
+        margin-top: 100px;
+        /* Adjust if top buttons overlap */
+    }
+
+    h1 {
+        font-size: 1.6em;
+        margin-bottom: 15px;
+    }
+
+    h2,
+    h3,
+    h4 {
+        font-size: 1em;
+    }
+
+    #status {
+        font-size: 1.1em;
+    }
+
+    #yourCode {
+        font-size: 20px;
+        padding: 8px 15px;
+    }
+
+    input {
+        padding: 10px;
+        font-size: 14px;
+        width: calc(100% - 20px);
+        max-width: 250px;
+    }
+
+    .action-button {
+        padding: 10px 20px;
+        font-size: 1em;
+        margin-top: 8px;
+    }
+
+    .top-buttons {
+        flex-direction: column;
+        gap: 10px;
+        top: 15px;
+        left: 15px;
+        right: 15px;
+    }
+
+    .top-buttons .button {
+        font-size: 0.8em;
+        padding: 6px 10px;
+        border-radius: 6px;
+        width: auto;
+    }
+
+    .top-buttons .back-to-home {
+        order: 1;
+        margin-right: auto;
+    }
+
+    .top-buttons .toggle-button:nth-of-type(1) {
+        order: 2;
+        margin-left: auto;
+    }
+
+    .top-buttons .toggle-button:nth-of-type(2) {
+        order: 3;
+        margin-left: auto;
+    }
+
+    .top-buttons .toggle-button:nth-of-type(3) {
+        order: 4;
+        margin-left: auto;
+    }
+
+
+    #board {
+        grid-template-columns: repeat(3, 65px);
+        grid-gap: 6px;
+    }
+
+    #board div {
+        width: 65px;
+        height: 65px;
+        font-size: 3em;
+    }
+
+    #winnerMessage {
+        font-size: 20px;
+    }
+
+    #toast {
+        bottom: 10px;
+        padding: 10px 15px;
+        font-size: 12px;
+    }
+
+    .shape {
+        display: none;
+    }
+}
+
+/* --- Tablet Responsiveness (481px to 768px) --- */
+@media (min-width: 481px) and (max-width: 768px) {
+    body {
+        padding: 15px;
+    }
+
+    .container {
+        padding: 25px 30px;
+        max-width: 400px;
+    }
+
+    h1 {
+        font-size: 2em;
+    }
+
+    #yourCode {
+        font-size: 22px;
+    }
+
+    input {
+        padding: 10px;
+        font-size: 15px;
+        max-width: 260px;
+    }
+
+    .action-button {
+        padding: 12px 22px;
+        font-size: 1.05em;
+    }
+
+    .top-buttons {
+        gap: 10px;
+        top: 15px;
+        left: 15px;
+        right: 15px;
+    }
+
+    .top-buttons .button {
+        font-size: 0.95em;
+        padding: 8px 14px;
+    }
+
+    #board {
+        grid-template-columns: repeat(3, 75px);
+        grid-gap: 8px;
+    }
+
+    #board div {
+        width: 75px;
+        height: 75px;
+        font-size: 3.5em;
+    }
+
+    #winnerMessage {
+        font-size: 20px;
+    }
+}

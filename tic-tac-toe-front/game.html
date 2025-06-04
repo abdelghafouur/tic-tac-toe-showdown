@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Tic Tac Toe: Play with Friends</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="./css/game.css">
+</head>
+
+<body>
+    <div class="shape"></div>
+    <div class="shape"></div>
+    <div class="shape"></div>
+    <div class="shape"></div>
+    <div class="shape"></div>
+    <div class="shape"></div>
+    <div class="shape"></div>
+
+    <div class="top-buttons">
+        <a href="index.html" class="button back-to-home">🏠 Back to Home</a>
+        <button class="button toggle-button" id="toggleThemeBtn" onclick="toggleTheme()">🌙 Toggle Dark Mode</button>
+        <button class="button toggle-button" id="toggleSoundBtn" onclick="toggleSound()">🔊 Toggle Sound</button>
+        <button class="button toggle-button" id="toggleMusicBtn" onclick="toggleMusic()">🎵 Toggle Music</button>
+    </div>
+
+    <div class="container">
+        <h1>🤝 Play with Friends 🤝</h1>
+
+        <div id="setupSection" class="setup-section">
+            <h2>Your Code (share this with opponent):</h2>
+            <div id="yourCode"></div>
+
+            <h2>Enter Your Name:</h2>
+            <input id="yourNameInput" placeholder="Your Name" />
+
+            <h2>Enter Opponent's Code:</h2>
+            <input id="opponentCodeInput" placeholder="Opponent's code" />
+            <button id="startBtn" class="action-button">Start Game</button>
+            <div id="status" style="font-weight: bold;"></div>
+        </div>
+
+        <div id="gameSection" class="game-section">
+            <div id="waitingMessage" style="font-weight: bold; margin-top: 10px;"></div>
+
+            <div id="gameBoardAndInfo">
+                <h3>Game ID: <span id="gameIdDisplay"></span></h3>
+                <h4>Your mark: <span id="yourMark"></span> (<span id="yourNameDisplay"></span>)</h4>
+                <h4>Opponent's mark: <span id="opponentMark"></span> (<span id="opponentNameDisplay"></span>)</h4>
+                <h4>Current turn: <span id="currentTurn"></span></h4>
+
+                <div id="board"></div>
+                <div id="winnerMessage"></div>
+            </div>
+        </div>
+
+        <button id="newGameBtn" class="action-button" style="display: none;">🔄 New Game</button>
+    </div>
+    <div id="toast">
+        Code copied to clipboard! 📋
+    </div>
+
+    <audio id="clickSound" src="./assets/click-button.mp3" preload="auto"></audio>
+    <audio id="winSound" src="./assets/win-sound.mp3" preload="auto"></audio>
+    <audio id="drawSound" src="./assets/drawing-sound.mp3" preload="auto"></audio>
+    <audio id="bgMusic" src="./assets/music-play1.mp3" loop preload="auto"></audio>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="./js/game.js"></script>
+
+
+</body>
+
+</html>

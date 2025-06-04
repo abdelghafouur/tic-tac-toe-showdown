@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic-Tac-Toe: Play with Robot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="./css/robot-game.css">
+
+</head>
+
+<body>
+    <div class="shape"></div>
+    <div class="shape"></div>
+    <div class="shape"></div>
+    <div class="shape"></div>
+    <div class="shape"></div>
+    <div class="shape"></div>
+    <div class="shape"></div>
+
+    <div class="top-buttons">
+        <a href="index.html" class="button back-to-home">🏠 Back to Home</a>
+        <button class="button toggle-button" id="toggleThemeBtn" onclick="toggleTheme()">🌙 Toggle Dark Mode</button>
+        <button class="button toggle-button" id="toggleSoundBtn" onclick="toggleSound()">🔊 Toggle Sound</button>
+        <button class="button toggle-button" id="toggleMusicBtn" onclick="toggleMusic()">🎵 Toggle Music</button>
+    </div>
+
+    <div class="container">
+        <h1>🤖 Tic-Tac-Toe Robot 🤖</h1>
+
+        <div id="setupSection" class="setup-section">
+            <h2>Enter Your Name:</h2>
+            <input id="playerNameInput" placeholder="Your Name" />
+            <button id="startGameBtn" class="action-button">Start Game</button>
+        </div>
+
+        <div id="gameSection" class="game-section">
+            <h4 id="game-status"></h4>
+            <div id="board">
+            </div>
+            <div id="winnerMessage"></div>
+            <button id="newGameBtn" class="action-button" style="display: none;">🔄 New Game</button>
+        </div>
+    </div>
+
+    <div id="toast"></div>
+
+    <audio id="clickSound" src="./assets/click-button.mp3" preload="auto"></audio>
+    <audio id="winSound" src="./assets/win-sound.mp3" preload="auto"></audio>
+    <audio id="drawSound" src="./assets/drawing-sound.mp3" preload="auto"></audio>
+    <audio id="bgMusic" src="./assets/music-play1.mp3" loop preload="auto"></audio>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="./js/robot-game.js"></script>
+
+</body>
+
+</html>
