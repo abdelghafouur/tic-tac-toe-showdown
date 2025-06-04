@@ -470,7 +470,7 @@ body.dark #board div.winner-cell {
 #winnerMessage {
     margin-top: 20px;
     font-weight: bold;
-    font-size: 28px;
+    font-size: 24px;
     color: var(--win);
     animation: pulse 1.5s infinite alternate;
 }
