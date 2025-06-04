@@ -8,8 +8,7 @@ Tic-Tac-Toe Showdown is a dynamic web application that re-imagines the timeless 
 
 ## DEMO
 
-**Live Demo:** <a href="https://tic-tac-toe-showdown.glitch.me/" target="_blank">https://tic-tac-toe-showdown.glitch.me/</a>
-
+**Live Demo:** <a href="https://tic-tac-toe-showdown.glitch.me/" target="_blank" rel="noopener noreferrer">https://tic-tac-toe-showdown.glitch.me/</a>
 -----
 
 ## Table of Contents
